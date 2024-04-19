@@ -1,0 +1,71 @@
+1. Run all the tests in headless mode
+npx playwright test
+
+2. Run playwright test in headed mode
+npx playwright test --headed
+
+3. open the report
+npx playwright show-report
+
+4. Run the specific test
+npx playwright tests <<relative test path file>>
+
+5. Debug mode
+npx playwright test --debug
+
+6. Run tests with specific project configuration
+npx playwright test <test-file-path> --project <name of the project>
+
+7. Run the tests with tags using grep command
+npx playwright test --grep @Sanity
+
+Below command executes all tests which have Sanity but not regression
+npx playwright test --grep @Sanity --grep-invert @Reg
+
+Below command executes all tests which have Sanity and regression
+npx playwright test --grep @Sanity@Reg
+
+8. Allure Report
+npx playwright test --grep @WebUI --reporter=line,allure-playwright
+npm install -g allure-commandline
+npx allure generate ./allure-results --clean
+npx allure open ./allure-report
+
+9. npx cucumber-js
+
+10. Executes all tests in parallel with 4 workers
+npx playwright test --workers 4
+
+Disable parallelism
+npx playwright test --workers=1
+
+parallelize tests in single file
+test.describe.configure({ mode: 'parallel' });
+
+11. Run tests in parallel for few projects
+
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  // runs all tests in all files of a specific project in parallel
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+      fullyParallel: true,
+    },
+  ]
+});
+
+12. In Serial mode
+test.describe.configure({ mode: 'serial' });
+
+13. Shared tests between multiple machines
+
+npx playwright test --shard=2/3
+
+14. Limit failures and fail fast
+npx playwright test --max-failures=10
+
+maxFailures: process.env.CI ? 10 : undefined,
+
